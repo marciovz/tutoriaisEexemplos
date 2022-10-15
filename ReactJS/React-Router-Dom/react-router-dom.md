@@ -102,3 +102,26 @@ src/Routes.tsx
   }
 ```
 Nesse contexto o componente Home ou o componente About será renderizado no lugar do elemento Outlet.
+
+
+## Navegação via link
+
+Podemos utilizar a tag âncora para navegar para outra rota, mas essa tag normalmente força uma nova renderização da página.
+```tsx
+  <a href='/'>Home</a>
+```
+
+Para evitar renderização podemos usar o componente Link do react-router-dom
+```tsx
+  import { Link } from 'react-router-dom'
+
+  <Link to="/">Home</Link>
+```
+
+## Navegação com useRouter
+
+```tsx
+  const route = useRouter()
+
+  router.push('/')
+```
