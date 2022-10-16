@@ -44,8 +44,8 @@ src/Router.tsx
 src/App.tsx
 ```tsx
   import { BrowserRouter } from 'react-router-dom'
-  import { Router } from './Router'
 
+  import { Router } from './Router'
   export function app() {
     return (
       <BrowserRouter>
@@ -119,9 +119,26 @@ Para evitar renderização podemos usar o componente Link do react-router-dom
 ```
 
 ## Navegação com useRouter
-
 ```tsx
   const route = useRouter()
 
   router.push('/')
+```
+
+
+## Navegação com useNavigate
+```tsx
+  import { useNavigate}  from 'react-router-dom';
+
+  const navigate = useNavigate()
+
+  navigate('/')
+```
+
+
+## Navegação com Navigate
+```tsx
+  import { Navigate } from 'react-router-dom'
+
+  <Navigate to="/" />
 ```
