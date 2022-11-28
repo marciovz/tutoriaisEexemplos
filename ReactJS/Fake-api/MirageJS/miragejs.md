@@ -15,22 +15,43 @@ $ npm install miragejs -D
 Definindo as rotas da api
 
 ```js
-import { createServer } from "miragejs";
+import { createServer, Model } from "miragejs";
 import { App } from "./App";
 
 createServer({
-  routes() {
-    this.namespace = "api";
+  models: {
+    users: Model,
+  },
 
-    this.get("/users", () => {
-      return [
+  seeds(server) {
+    server.db.loadData({
+      users: [
         {
           id: 1,
           name: "John Due",
           email: "john.due@email.com",
           createdAt: new Date(),
         },
-      ];
+        {
+          id: 2,
+          name: "Marie Due",
+          email: "marie.due@email.com",
+          createdAt: new Date(),
+        },
+      ],
+    });
+  },
+
+  routes() {
+    this.namespace = "api";
+
+    this.get("/users", () => {
+      return this.schema.all("user");
+    });
+
+    this.post("/users", (schema, request) => {
+      const data = JSON.parse(request.requestBody);
+      return schema.create("user", data);
     });
   },
 });
