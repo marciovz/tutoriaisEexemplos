@@ -54,5 +54,3 @@ src/styles/home.module.scss
   }
 }
 ```
-
-#
