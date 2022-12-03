@@ -35,3 +35,59 @@ Para acessa o serviço basta acessar o endereço da aplicação na rota api/nome
 EX.: http://localhost:3000/api/users
 
 ```
+
+## Parametrizações nas rotas
+
+Para utilizar parametrização precisamos que os arquivos dessa rota esteja dentro de uma pasta com o nome da rota, e criar um arquivo no formato rota/[nome_do_parametro].ts
+
+pages/api/users/[userId].ts
+
+```tsx
+import { NextApiRequest, NextApiResponse } from "next";
+
+export default (request: NextApiRequest, response: NextApiResponse) => {
+  const { userId } = request.query;
+
+  return response.json(userId);
+};
+```
+
+Chamada a API
+
+```
+http://localhost:3000/api/users/1
+
+Retorno da chamada
+
+1
+
+```
+
+Podemos também recuperar uma lista de parametros criando um serviço com o seguinte nome servico/[...parametros].ts
+
+pages/api/users/[...parametros].ts
+
+```tsx
+import { NextApiRequest, NextApiResponse } from "next";
+
+export default (request: NextApiRequest, response: NextApiResponse) => {
+  const { parametros } = request.query;
+
+  return response.json(parametros);
+};
+```
+
+Chamada a api
+
+```
+http://localhost:3000/api/users/param1/param2/param3
+
+
+Retorno da chamada
+[
+  "param1",
+  "param2",
+  "param3"
+]
+
+```
