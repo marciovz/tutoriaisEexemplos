@@ -91,3 +91,70 @@ Retorno da chamada
 ]
 
 ```
+
+## Acessando uma session frontend no backend api
+
+No nextjs podemos ter acesso a sessão do usuário do frontend no backend através da função getSession da biblioteca next-auth/client.
+
+pages/api/subscribe.ts
+
+```ts
+import { NextApiRequest, NextApiResponse } from "next";
+import { getSession } from "next-auth/client";
+import { stripe } from "../../services/stripe";
+
+export default async (req: NextApiRequest, res: NextApiResponse) => {
+  if (req.method === "POST") {
+    const session = await getSession({ req });
+
+    const sessionId: session.user.sessionId;
+
+    return res.status(200).json({ sessionId });
+  } else {
+    res.setHeader("Allow", "POST");
+    res.status(405).end("Method not allowed");
+  }
+};
+```
+
+## Fazendo uma chamada api a função subscribe (criada no item anterior)
+
+Criando o serviço de api
+src/services/api.ts
+
+```ts
+import axios from "axios";
+
+export const api = axios.create({
+  baseURL: "/api",
+});
+```
+
+Fazendo uma requisição a api subscribe
+src/components/SubscribeButton/index.tsx
+
+```jsx
+import { api } from ".../.../services/api";
+import styles from "./styles.module.scss";
+
+export function SubscribeButton() {
+  async function handleSubscribe() {
+    try {
+      const response = await api.post("/subscrive");
+
+      const { sessionId } = response.data;
+
+      ...continua;
+    } catch (err) {
+      alert(err.message);
+    }
+  }
+
+  return (
+    <button type="button" onClick={() => handleSubscrive()}>
+      subscribe now
+    </button>
+  )
+
+}
+```
