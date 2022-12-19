@@ -35,3 +35,75 @@ export const getStaticProps: GetStaticProps = async () => {
   };
 };
 ```
+
+## Estratégias para geração estática
+
+As páginas estáticas pode ser todas geradas antes da página ser renderizada, porém se o número de páginas forem muito grande, 1000 por exemplo, isso irá refletir em uma demora para renderização da página inicial.
+Para resolver isso, temos 3 estratégia de geração de páginas estática.
+
+- Gerar as páginas estáticas durante a build;
+- Gerar a página estática no primeiro acesso;
+- Gerar as principais páginas durante a build, e as demais durante o primeiro acesso;
+
+### Gerando todas as páginas estáticas durante o primeiro acesso
+
+Para gerar as páginas estáticas durante o primeiro acesso, basta passar as configurações vazia no paths do metodo getStaticpaths.
+
+```js
+export const getStaticPaths: GetStaticPaths = () => {
+  return {
+    paths: [],
+    fallback: "blocking",
+  };
+};
+```
+
+### Gerando todas as páginas estáticas durante a build
+
+Gerar as páginas estáticas durante a build, basta passar todas slugs no parametros das paths.
+
+```js
+export const getStaticPaths: GetStaticPaths = () => {
+  return {
+    paths: [
+      { params: { slug: "slug-page-01" } },
+      { params: { slug: "slug-page-02" } },
+      { params: { slug: "slug-page-03" } },
+      { params: { slug: "slug-page-04" } },
+      { params: { slug: "slug-page-05" } },
+    ],
+    fallback: "blocking",
+  };
+};
+```
+
+### Gerando algumas páginas durante a build e as demais no primeiro acesso
+
+Nesse basta passar apenas as principais slugs para serem geradas estaticamente, e as demais serão geradas no primeiro acesso.
+
+```js
+export const getStaticPaths: GetStaticPaths = () => {
+  return {
+    paths: [
+      { params: { slug: "slug-page-01" } },
+      { params: { slug: "slug-page-02" } },
+    ],
+    fallback: "blocking",
+  };
+};
+```
+
+## Configurando o parametro fallback
+
+### fallback = true
+
+Se a página estática não for encontrada, ela vai ser carregada pelo lado do cliente,
+carregado primeiro a página e depois os dados.
+
+### fallback = false
+
+Se a página estática não for encontrada, será retornado um 404 de página não encontrada.
+
+### fallback = blocking
+
+Se a página estática não for encontrada, ela será carregada pelo lado do servidor, e só renderizar no cliente quando toda a página estiver carregada.
