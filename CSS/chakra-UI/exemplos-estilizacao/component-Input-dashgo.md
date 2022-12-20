@@ -1,7 +1,7 @@
 # COMPONENTE INPUT DO PROJETO DASHGO
 
-Projeto Dashgo <br>
 Componente Input <br>
+Projeto Dashgo <br>
 Ignite 2021 <br>
 
 ![DashGo Input](./assets/componente-Input-dashgo.png)

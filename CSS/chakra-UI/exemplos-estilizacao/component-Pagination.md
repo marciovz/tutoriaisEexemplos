@@ -1,5 +1,9 @@
 # COMPONENTE PAGINAÇÃO
 
+Componente Págination <br>
+Projeto Dashgo <br>
+Ignite 2021 <br>
+
 ![Pagination Dashgo](./assets/component-pagination.png)
 
 ### Pagination Index
