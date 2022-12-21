@@ -1,0 +1,116 @@
+# API FAKE COM MIRAGEJS NO NEXTJS
+
+MirageJS é uma biblioteca para rodar um servidor de dados fake.
+
+Factories pe um conceito para criação em massa de dados fake.
+A biblioteca Fake é usada para gerar dados em massa.
+
+## Configurando o mirage
+
+src/services/mirage/index.ts
+
+```ts
+import {
+  createServer,
+  Factory,
+  Model,
+  Response,
+  ActiveModelSerializer,
+} from "miragejs";
+import faker from "faker";
+
+type User = {
+  name: string;
+  email: string;
+  created_at: string;
+};
+
+export function makeServer() {
+  const server = createServer({
+    serializers: {
+      application: ActiveModelSerializer,
+    },
+
+    models: {
+      user: Model.extend<Partial<User>>({}),
+    },
+
+    factories: {
+      user: Factory.extend({
+        name(i: number) {
+          return `User ${i + 1}`;
+        },
+        email() {
+          return faker.internet.email().toLocaleLowerCase();
+        },
+        createdAt() {
+          return faker.date.recent(10);
+        },
+      }),
+    },
+
+    seeds(server) {
+      server.createList("user", 200);
+    },
+
+    routes() {
+      this.namespace = "api";
+      this.timing = 750;
+
+      this.get("/users", function (schema, request) {
+        const { page = 1, per_page = 10 } = request.queryParams;
+
+        const total = schema.all("user").length;
+
+        const pageStart = (Number(page) - 1) * Number(per_page);
+        const pageEnd = pageStart + Number(per_page);
+
+        const users = this.serialize(schema.all("user")).users.slice(
+          pageStart,
+          pageEnd
+        );
+
+        return new Response(200, { "x-total-count": String(total) }, { users });
+      });
+
+      this.get("/users/:id");
+      this.post("/users");
+
+      this.namespace = "";
+      this.passthrough();
+    },
+  });
+
+  return server;
+}
+```
+
+## Adicionar a inicialização do servidor mirage no app da aplicação
+
+src/pages/\_app.tsx
+
+```tsx
+import { AppProps } from "next/app";
+import { ChakraProvider } from "@chakra-ui/react";
+import { theme } from "../styles/theme";
+import { makeServer } from "../services/mirage";
+
+import { SidebarDrawerProvider } from "../contexts/SidebarDrawerContext";
+
+// Inicializa o servidor do mirage
+if (process.env.NODE_ENV === "development") {
+  makeServer();
+}
+
+function MyApp({ Component, pageProps }: AppProps) {
+  return (
+    <ChakraProvider theme={theme}>
+      <SidebarDrawerProvider>
+        <Component {...pageProps} />
+      </SidebarDrawerProvider>
+    </ChakraProvider>
+  );
+}
+
+export default MyApp;
+```
