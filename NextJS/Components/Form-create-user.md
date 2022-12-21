@@ -1,8 +1,8 @@
 # FORMULÁRIO DE CADASTRO DE USUÁRIO COM CHAKRA-UI E REACT-HOOK-FORM
 
-Formulário de cadastro de usuários
-Projeto Dashgo
-Ignite 2021
+Formulário de cadastro de usuários <br>
+Projeto Dashgo <br>
+Ignite 2021 <br>
 
 ![Create User Dashgo](./assets/form-create-user.png)
 

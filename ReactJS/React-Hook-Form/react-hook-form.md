@@ -1,15 +1,17 @@
 # React Hook Form
 
 ### Instalando a biblioteca react-hook-form.
+
 ```cmd
 $ npm install react-hook-form
 ```
 
 ### Criando um formulário não controlado.
+
 ```tsx
   import { useForm } form 'react-hook-form'
 
-  export funciton Home() {
+  export function Home() {
     const { register, handleSubmit, watch, formState } = useForm()
     const { errors } = formState
 
@@ -20,22 +22,22 @@ $ npm install react-hook-form
     function handleSubmit(data) {
       if( errors ) {
         console.log(errors)
-      } 
+      }
       console.log(data)
     }
 
     return (
       <form onSubmit={handleSubmit}>
-        <input 
+        <input
           placeholder="Digite seu nome"
-          {...register('name')} 
+          {...register('name')}
         />
-        <input 
+        <input
           placeholder="Digite seu email"
-          {...register('email')} 
+          {...register('email')}
         />
-        <button 
-          type="submit" 
+        <button
+          type="submit"
           disabled={isSubmitDisabled}
         >
           Enviar

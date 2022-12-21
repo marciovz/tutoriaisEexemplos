@@ -1,8 +1,8 @@
 # FORMULÁRIO COM REACT-HOOK-FORMS NO NEXTJS
 
-Componente Formulário
-Projeto Dashgo
-Ignite 2021
+Componente Formulário <br>
+Projeto Dashgo <br>
+Ignite 2021 <br>
 
 ![Form Dashgo](./assets/form-dashgo.png)
 
