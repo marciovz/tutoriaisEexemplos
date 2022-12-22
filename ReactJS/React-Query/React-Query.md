@@ -25,11 +25,27 @@ import { Sidebar } from '../../Components/Sidevar';
 import { Pagination } from '../../components/Pagination';
 
 export default function UserList() {
-  const { data, isLoading, error } useQuery('users', async () => {
+  const { data, isLoading, isFetching, error } useQuery('users', async () => {
     const response = await fetch('http://localhost:3000/api/users');
     const data = await response.json();
 
-    return data;
+    const users = data.users.map(user => {
+      return {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        createdAt: new Date(user.createdAt).toLcaleDateString('pt-BR', {
+          day: '2-digit',
+          month: 'long',
+          year: 'numeric'
+        })
+
+      }
+    })
+
+    return users;
+  }, {
+    staleTime: 1000 * 5, // 5 seconds
   })
 
   return (
@@ -41,7 +57,10 @@ export default function UserList() {
 
         <Box flex="1" borderRadius={8} bg="gray.800" p="8">
           <Flex mb="8" justify="space-between" align="center">
-            <Heading size="lg" fontWeight="normal">Usuários</Heading>
+            <Heading size="lg" fontWeight="normal">
+              Usuários
+              { !isLoading && isFetching && <Spinner size="sm" color="gray.500" ml="4" /> }
+            </Heading>
 
             <Link href="/users/create" passHref>
               <Button
@@ -77,7 +96,7 @@ export default function UserList() {
                 </Tr>
               </Thead>
               <Tbody>
-                {data.users.map(user => {
+                {data.map(user => {
                   return (
                     <Tr key={user.id}>
                       <Td px={["4", "4", "6"]}>
@@ -125,6 +144,7 @@ src/pages/\_app.tsx
 ```ts
 import { AppProps } from "next/app";
 import { ChakraProvider } from "@chakra-ui/react";
+import { ReactQueryDevtools } from "react-query/devtools";
 import { QueryClientProvider } from "react-query";
 
 import { theme } from "../styles/theme";
@@ -146,6 +166,8 @@ function MyApp({ Component, pageProps }: AppProps) {
           <Component {...pageProps} />
         </SidebarDrawerProvider>
       </ChakraProvider>
+
+      <ReactQueryDevtools />
     </QueryClientProvider>
   );
 }
