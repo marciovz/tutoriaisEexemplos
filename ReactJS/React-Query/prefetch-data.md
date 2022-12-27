@@ -8,7 +8,7 @@ src/pages/users/index.tsx
 
 ```tsx
 . . .
-async function handlePrefectchUser(userid: number) {
+async function handlePrefectchUser(userId: string) {
   await queryClient.prefetchQuery(['user', userId], async () => {
     const response = await api.get(`users/${userId}`);
     return response.data;
