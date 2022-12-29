@@ -6,7 +6,7 @@ Está apenas disponível no browser do frontend, e não pode ser acessado no bac
 
 ## Alterar os métodos abaixo.
 
-### Armazenando dado no localstorage
+### Armazenando dado no sessionStorageSe
 
 ```js
 const user = {
@@ -14,7 +14,7 @@ const user = {
   email: "manoel.vieira@email.com",
 };
 
-localstorage.setItem("user", JSON.stringify(user));
+sessionStorage.setItem("user", JSON.stringify(user));
 ```
 
 ### Buscando dados no localstotage
@@ -22,12 +22,12 @@ localstorage.setItem("user", JSON.stringify(user));
 Os dados vem no formato string. Para casos de objetos, devemos converter-los novamente para o formato inicial.
 
 ```js
-const dataUser = localstorate.getItem("user");
+const dataUser = sessionStorage.getItem("user");
 const user = JSON.parser(dataUser);
 ```
 
 ### Apagando dados do localstorage
 
 ```js
-localstorage.removeItem("user");
+sessionStorage.removeItem("user");
 ```
