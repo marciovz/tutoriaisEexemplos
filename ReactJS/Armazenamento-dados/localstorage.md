@@ -1,7 +1,8 @@
 # Armazenamento de dados no LocalStorage
 
-- Os dados ficam salvos na máquina do cliente, e podem ser recuperados abrindo outra seção do navegador.
+- Os dados ficam salvos na máquina do cliente, mesmo aṕos fechar o navegador.
 - Os dados estão disponíveis apenas para o frontend.
+- Sem expiração dos dados.
 - Local storage armazena dados no formato de string.
 - Para armazenar objetos, devemos fazer a conversão para string.
 
